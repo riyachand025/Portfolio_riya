@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riya Chand | Advanced Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gradient: linear-gradient(90deg, #a855f7, #ec4899, #f59e0b);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .glass-effect {
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cursor {
+            position: fixed;
+            border-radius: 50%;
+            left: 0; top: 0;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease-out, width 0.3s ease, height 0.3s ease;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #fff;
+            transition-duration: 0.1s;
+        }
+        .cursor-grow {
+            transform: translate(-50%, -50%) scale(2.5);
+        }
+        
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #050505; z-index: 10000; display: flex;
+            justify-content: center; align-items: center; color: #fff;
+        }
+        
+        .animated-title .char {
+            display: inline-block;
+            transform-origin: bottom;
+        }
+
+        .cp-card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .cp-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.2);
+        }
+        
+        /* Styles for horizontal scroll sections */
+        #work, #cp {
+            transition: background-color 0.5s ease-in-out;
+        }
+        #work-container, #cp-container {
+            height: 100vh;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        #work-container { width: 500vw; }
+        #cp-container { width: 400vw; }
+
+        .work-panel, .cp-panel {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="webgl-canvas"></canvas>
+
+    <div id="preloader">
+        <div class="text-2xl font-semibold opacity-0" id="preloader-text">Loading Experience...</div>
+    </div>
+    
+    <div class="cursor cursor-dot"></div>
+    <div class="cursor cursor-outline"></div>
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold gradient-text">RC</a>
+            <ul class="hidden md:flex space-x-8 items-center">
+                <li><a href="#about" class="hover:text-purple-400 transition-colors">About</a></li>
+                <li><a href="#skills" class="hover:text-purple-400 transition-colors">Skills</a></li>
+                <li><a href="#work" class="hover:text-purple-400 transition-colors">Work</a></li>
+                <li><a href="#cp" class="hover:text-purple-400 transition-colors">CP</a></li>
+                <li><a href="#contact" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded-lg transition-colors">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" class="opacity-0">
+        <section id="hero" class="h-screen flex items-center justify-center text-center relative">
+            <div class="z-10 p-4">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-4">
+                    <span class="animated-title">Innovate.</span>
+                    <br>
+                    <span class="animated-title gradient-text">Create. Deploy.</span>
+                </h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 animated-subtitle">
+                    A Full Stack Developer and Cloud Architect crafting the digital backbone of tomorrow.
+                </p>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 md:py-40 relative z-10">
+            <div class="container mx-auto px-6 max-w-5xl grid md:grid-cols-5 gap-12 items-center">
+                 <div class="md:col-span-3">
+                    <h2 class="section-title text-4xl md:text-6xl font-black mb-8">About Me</h2>
+                    <p class="text-lg text-gray-300 space-y-6 about-text">
+                        I am a passionate web developer and AWS cloud enthusiast with expertise in creating dynamic web experiences and designing scalable cloud solutions. With a strong foundation in both frontend and backend technologies, alongside advanced AWS infrastructure skills, I strive to build applications that are not only visually appealing but also functionally robust and highly available.
+                    </p>
+                 </div>
+                 <div class="md:col-span-2 flex justify-center about-image">
+                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full glass-effect p-2">
+                        <img src="https://placehold.co/400x400/050505/a855f7?text=RC" alt="Riya Chand" class="rounded-full w-full h-full object-cover">
+                    </div>
+                 </div>
+            </div>
+        </section>
+        
+        <section id="skills" class="py-24 md:py-40 relative z-10 glass-effect">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl md:text-6xl font-black text-center mb-20">My Tech Arsenal</h2>
+                <div class="max-w-7xl mx-auto grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-8 text-center skills-grid">
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/javascript/javascript-icon.svg" alt="JavaScript" class="h-16 mx-auto mb-2"><p>JavaScript</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg" alt="TypeScript" class="h-16 mx-auto mb-2"><p>TypeScript</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg" alt="React" class="h-16 mx-auto mb-2"><p>React</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/nextjs/nextjs-icon.svg" alt="Next.js" class="h-16 mx-auto mb-2 filter invert"><p>Next.js</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg" alt="Node.js" class="h-16 mx-auto mb-2"><p>Node.js</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/python/python-icon.svg" alt="Python" class="h-16 mx-auto mb-2"><p>Python</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/nestjs/nestjs-icon.svg" alt="NestJS" class="h-16 mx-auto mb-2"><p>NestJS</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/mongodb/mongodb-icon.svg" alt="MongoDB" class="h-16 mx-auto mb-2"><p>MongoDB</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/postgresql/postgresql-icon.svg" alt="PostgreSQL" class="h-16 mx-auto mb-2"><p>PostgreSQL</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" alt="AWS" class="h-16 mx-auto mb-2"><p>AWS</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/docker/docker-icon.svg" alt="Docker" class="h-16 mx-auto mb-2"><p>Docker</p></div>
+                    <div class="skill-item"><img src="https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg" alt="Kubernetes" class="h-16 mx-auto mb-2"><p>Kubernetes</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work">
+            <div id="work-container">
+                <div class="work-panel"><h2 class="section-title text-4xl md:text-6xl lg:text-7xl font-black text-center">Featured Work</h2></div>
+                <div class="work-panel"><div class="glass-effect rounded-2xl p-6 md:p-8 w-full max-w-4xl flex flex-col md:flex-row gap-8 items-center"><img src="walmart.png" alt="Walmart Project" class="rounded-lg shadow-lg w-full md:w-1/2 object-cover aspect-video"><div class="w-full md:w-1/2 text-left"><h3 class="text-3xl font-bold mb-3">Walmart Digital Revolution</h3><p class="text-gray-300 mb-5">Engineered a comprehensive retail management platform for a Walmart hackathon, streamlining operations by connecting suppliers, customers, and staff through a single, intuitive interface.</p><a href="https://walmart7768.vercel.app/" target="_blank" class="font-bold text-purple-400 hover:underline">View Project &rarr;</a><div class="mt-6 flex flex-wrap gap-2"><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">React</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Node.js</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">MongoDB</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Dialogflow</span></div></div></div></div>
+                <div class="work-panel"><div class="glass-effect rounded-2xl p-6 md:p-8 w-full max-w-4xl flex flex-col md:flex-row gap-8 items-center"><img src="portfolio.png" alt="Portfolio Pro" class="rounded-lg shadow-lg w-full md:w-1/2 object-cover aspect-video"><div class="w-full md:w-1/2 text-left"><h3 class="text-3xl font-bold mb-3">PortfolioPro</h3><p class="text-gray-300 mb-5">Developed a dynamic MERN-stack application enabling users to build, customize, and deploy personal portfolios with an intuitive, user-friendly interface and secure authentication.</p><a href="https://e-portfolio-builder.vercel.app" target="_blank" class="font-bold text-pink-400 hover:underline">View Project &rarr;</a><div class="mt-6 flex flex-wrap gap-2"><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">React</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Express.js</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">MongoDB</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Cloudinary</span></div></div></div></div>
+                <div class="work-panel"><div class="glass-effect rounded-2xl p-6 md:p-8 w-full max-w-4xl flex flex-col md:flex-row gap-8 items-center"><img src="terminal.png" alt="Smart terminal" class="rounded-lg shadow-lg w-full md:w-1/2 object-cover aspect-video"><div class="w-full md:w-1/2 text-left"><h3 class="text-3xl font-bold mb-3">AI-Powered Intelligent Terminal</h3><p class="text-gray-300 mb-5">Developed an AI-powered intelligent terminal with 300+ commands, semantic autocomplete, and JSON-formatted outputs for enhanced productivity and automation.
+                </p><a href="#" target="_blank" class="font-bold text-orange-400 hover:underline">View Project &rarr;</a><div class="mt-6 flex flex-wrap gap-2"><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Olama</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">JSON</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Shell integration</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">C</span></div></div></div></div>
+                <div class="work-panel"><div class="glass-effect rounded-2xl p-6 md:p-8 w-full max-w-4xl flex flex-col md:flex-row gap-8 items-center"><img src="DSA.png" alt="DSA Visualizer" class="rounded-lg shadow-lg w-full md:w-1/2 object-cover aspect-video"><div class="w-full md:w-1/2 text-left"><h3 class="text-3xl font-bold mb-3">DSA Visualizer</h3><p class="text-gray-300 mb-5">Built and launched a web platform that visualizes DSA with interactive animations, real-time complexity insights, and a custom JavaScript backend for fast, seamless user experience.
+                </p><a href="https://dsa-visualizer-coral.vercel.app/" target="_blank" class="font-bold text-emerald-400 hover:underline">View Project &rarr;</a><div class="mt-6 flex flex-wrap gap-2"><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Next.js</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">NestJS</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">GraphQL</span><span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded">Docker</span></div></div></div></div>
+            </div>
+        </section>
+        <section id="cp">
+            <div id="cp-container">
+                <div class="cp-panel"><h2 class="section-title text-4xl md:text-6xl lg:text-7xl font-black text-center">Competitive Programming</h2></div>
+                <div class="cp-panel"><div class="glass-effect rounded-2xl block overflow-hidden w-full max-w-4xl"><img src="leetcodeProfile.png" alt="LeetCode Screenshot" class="w-full h-full object-cover"></div></div>
+                <div class="cp-panel"><div class="glass-effect rounded-2xl block overflow-hidden w-full max-w-4xl"><img src="badges.png" alt="Codeforces Screenshot" class="w-full h-full object-cover"></div></div>
+                <div class="cp-panel"><div class="glass-effect rounded-2xl block overflow-hidden w-full max-w-4xl"><img src="image.png" alt="GeeksforGeeks Screenshot" class="w-full h-full object-cover"></div></div>
+            </div>
+        </section>
+        <section id="contact" class="py-24 md:py-40 relative z-10">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title text-4xl md:text-6xl font-black mb-6">Let's Build Together</h2>
+                <p class="text-gray-400 mb-12 max-w-2xl mx-auto text-lg">Have a project idea or just want to connect? My inbox is open.</p>
+                <div class="max-w-xl mx-auto">
+                    <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                        <input type="hidden" name="access_key" value="fd6d0df8-8b17-41bb-8ab3-83e9d1bab5aa">
+                        <input type="hidden" name="subject" value="New Contact Form Submission from Portfolio">
+                        <input type="hidden" name="redirect" value="https://web3forms.com/success"> 
+
+                        <input type="text" placeholder="Your Name" name="name" required class="w-full p-4 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all text-white glass-effect">
+                        <input type="email" placeholder="Your Email" name="email" required class="w-full p-4 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all text-white glass-effect">
+                        <textarea name="message" rows="5" placeholder="Your Message" required class="w-full p-4 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all text-white glass-effect"></textarea>
+                        
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-10 rounded-lg transition-transform hover:scale-105">Send Message</button>
+                    </form>
+                    <div id="form-result" class="mt-4 text-lg font-medium"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="py-8 text-center text-gray-500 relative z-10 border-t border-gray-900"><div class="flex justify-center space-x-6 mb-6"><a href="https://github.com/riyachand025" target="_blank" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a href="https://www.linkedin.com/in/riya-chand-75aa58223/" target="_blank" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></a></div><p>&copy; 2025 Riya Chand. Crafted with code and passion.</p></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script type="importmap">
+        { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js" } }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const lenis = new Lenis();
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', e => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            gsap.to(cursorDot, { duration: 0, x: posX, y: posY });
+            gsap.to(cursorOutline, { duration: 0.2, x: posX, y: posY });
+        });
+        
+        document.querySelectorAll('a, button, input, textarea, .skill-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-grow'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-grow'));
+        });
+
+        const preloaderTl = gsap.timeline();
+        preloaderTl
+            .to('#preloader-text', { opacity: 1, duration: 1.5 })
+            .to('#preloader-text', { opacity: 0, duration: 1 }, "+=0.5")
+            .to('#preloader', { y: '-100%', duration: 1, ease: 'power3.inOut' })
+            .to('#main-content', { opacity: 1, duration: 0.5 }, "-=0.8")
+            .from('.animated-title', { opacity: 0, y: 50, rotateX: -90, stagger: 0.2, duration: 1, ease: 'power3.out' }, '-=0.5')
+            .from('.animated-subtitle', { opacity: 0, y: 30, duration: 1, ease: 'power3.out' }, '-=0.7');
+
+        gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.from(title, {
+                scrollTrigger: { trigger: title, start: "top 85%", toggleActions: "play none none reverse" },
+                opacity: 0, y: 50, duration: 1, ease: 'power3.out'
+            });
+        });
+        
+        gsap.from(".about-text", {
+            scrollTrigger: { trigger: ".about-text", start: "top 80%" },
+            opacity: 0, y: 40, duration: 1, ease: 'power3.out'
+        });
+        gsap.from(".about-image", {
+            scrollTrigger: { trigger: ".about-image", start: "top 80%" },
+            opacity: 0, scale: 0.8, duration: 1.2, ease: 'elastic.out(1, 0.5)'
+        });
+        
+        gsap.from(".skills-grid .skill-item", {
+            scrollTrigger: { trigger: ".skills-grid", start: "top 80%", toggleActions: "play none none reverse" },
+            opacity: 0, scale: 0.5, y: 30, stagger: 0.05, duration: 0.6, ease: 'back.out(1.7)'
+        });
+        
+        document.querySelectorAll('.skill-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                gsap.to(item, { scale: 1.15, y: -8, duration: 0.3, ease: 'power1.out' });
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(item, { scale: 1, y: 0, duration: 0.3, ease: 'power1.out' });
+            });
+        });
+        
+        const workSection = document.querySelector("#work");
+        const workPanels = gsap.utils.toArray("#work-container .work-panel");
+        const workColors = ["#050505", "#111827", "#1f2937", "#374151", "#050505"];
+        gsap.to(workPanels, {xPercent: -100 * (workPanels.length - 1), ease: "none", scrollTrigger: { trigger: "#work", pin: true, scrub: 1, snap: 1 / (workPanels.length - 1), end: () => "+=" + (workSection.querySelector("#work-container").offsetWidth - innerWidth), onUpdate: self => { const progress = self.progress; const colorIndex = Math.min(workPanels.length - 1, Math.floor(progress * (workPanels.length-1))); gsap.to(workSection, { backgroundColor: workColors[colorIndex], duration: 1, ease: 'power1.inOut' });}}});
+        const cpSection = document.querySelector("#cp");
+        const cpPanels = gsap.utils.toArray("#cp-container .cp-panel");
+        const cpColors = ["#050505", "#1a122e", "#291238", "#050505"];
+        gsap.to(cpPanels, {xPercent: -100 * (cpPanels.length - 1), ease: "none", scrollTrigger: { trigger: "#cp", pin: true, scrub: 1, snap: 1 / (cpPanels.length - 1), end: () => "+=" + (cpSection.querySelector("#cp-container").offsetWidth - innerWidth), onUpdate: self => { const progress = self.progress; const colorIndex = Math.min(cpPanels.length - 1, Math.floor(progress * (cpPanels.length - 1))); gsap.to(cpSection, { backgroundColor: cpColors[colorIndex], duration: 1, ease: 'power1.inOut' });}}});
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 2;
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const geometry = new THREE.PlaneGeometry(10, 10, 128, 128);
+        const material = new THREE.ShaderMaterial({uniforms: { uTime: { value: 0 }, uColor1: { value: new THREE.Color('#a855f7')}, uColor2: { value: new THREE.Color('#ec4899')}}, vertexShader: ` uniform float uTime; varying float vElevation; void main() { vec4 modelPosition = modelMatrix * vec4(position, 1.0); float elevation = sin(modelPosition.x * 0.4 + uTime * 0.5) * 0.2; elevation += sin(modelPosition.y * 0.6 + uTime * 0.3) * 0.2; modelPosition.z += elevation; vElevation = elevation; gl_Position = projectionMatrix * viewMatrix * modelPosition; } `, fragmentShader: ` uniform vec3 uColor1; uniform vec3 uColor2; varying float vElevation; void main() { float mixFactor = (vElevation + 0.2) / 0.4; vec3 color = mix(uColor1, uColor2, mixFactor); gl_FragColor = vec4(color, 1.0); } `, wireframe: true,});
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.rotation.x = -Math.PI / 2.5;
+        scene.add(mesh);
+        const clock = new THREE.Clock();
+        const mouse = new THREE.Vector2();
+        function animate() { const elapsedTime = clock.getElapsedTime(); material.uniforms.uTime.value = elapsedTime; camera.position.x += (mouse.x * 0.05 - camera.position.x) * 0.05; camera.position.y += (-mouse.y * 0.05 - camera.position.y) * 0.05; renderer.render(scene, camera); }
+        renderer.setAnimationLoop(animate);
+        window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight);});
+        window.addEventListener('mousemove', (event) => { mouse.x = (event.clientX / window.innerWidth) * 2 - 1; mouse.y = (event.clientY / window.innerHeight) * 2 - 1; });
+    </script>
+    
+    <script>
+        const form = document.getElementById('contact-form');
+        const result = document.getElementById('form-result');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const object = {};
+            formData.forEach((value, key) => {
+                object[key] = value;
+            });
+            const json = JSON.stringify(object);
+            result.innerHTML = "Sending...";
+            result.classList.remove('text-green-500', 'text-red-500');
+
+            fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                })
+                .then(async (response) => {
+                    let jsonResponse = await response.json();
+                    if (response.status == 200) {
+                        result.innerHTML = "Message sent successfully!";
+                        result.classList.add('text-green-500');
+                    } else {
+                        console.log(response);
+                        result.innerHTML = jsonResponse.message;
+                        result.classList.add('text-red-500');
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    result.innerHTML = "Something went wrong!";
+                    result.classList.add('text-red-500');
+                })
+                .then(function() {
+                    form.reset();
+                    setTimeout(() => {
+                        result.innerHTML = '';
+                        result.classList.remove('text-green-500', 'text-red-500');
+                    }, 5000);
+                });
+        });
+    </script>
+</body>
+</html>
